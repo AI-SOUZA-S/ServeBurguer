@@ -1,0 +1,82 @@
+{% extends 'hamburgueria/main.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container" id="hamburgueres">
+        <br><br><br><br><br>
+        <h3 style="color: rgb(255, 141, 54);">HAMBURGUERES:</h3>
+        <div class="row">
+            {% for hamburguer in hamburgueres %}
+              <div class="col-sm-3 mb-5 mr-2">
+                  <div class="card" style="width: 18rem;">
+                      {% if hamburguer.imagem %}
+                        <img src="{{ hamburguer.imagem.url }}" class="card-img-top" width="200" height="250">
+                      {% else %}
+                        <img src="{% static 'images/placeholder.jpg' %}" class="card-img-top" width="200" height="250">
+                      {% endif %}
+                      <div class="card-body">
+                        <h5 class="card-title">{{ hamburguer.nome }}</h5>
+                        <p class="card-text">Preço: R$ {{ hamburguer.preco }}</p>
+                        {% if user.is_authenticated  %}
+                          <a href="#" class="btn btn-outline-warning">Adicionar ao carrinho</a>
+                        {% endif %}
+                        <a href="#" class="btn btn-outline-warning">Ver</a>
+                      </div>
+                    </div>
+              </div>
+            {% endfor %}
+          </div>
+        <h3 style="color: rgb(255, 141, 54);">BEBIDAS:</h3>
+        <div class="row" id="bebidas">
+          {% for bebida in bebidas %}
+            <div class="col-sm-3 mb-5 mr-2">
+              <div class="card" style="width: 18rem;">
+                {% if bebida.imagem %}
+                  <img src="{{ bebida.imagem.url }}" class="card-img-top" width="200" height="300">
+                {% else %}
+                  <img src="{% static 'images/placeholder.jpg' %}" class="card-img-top" width="200" height="300">
+                {% endif %}
+                  <div class="card-body">
+                    <h5 class="card-title">{{ bebida.nome }}</h5>
+                    <p class="card-text">Preço: R$ {{ bebida.preco }}</p>
+                    <a href="#" class="btn btn-outline-warning">Adicionar ao carrinho</a>
+                    <a href="#" class="btn btn-outline-warning">Ver</a>
+                  </div>
+                </div>
+            </div>
+          {% endfor %}
+        </div>
+        <br>
+        <h3 style="color: rgb(255, 141, 54);">MOLHOS:</h3>
+        <div class="row" id="molhos">
+          {% for molho in molhos %}
+            <div class="col-sm-3 mb-5 mr-2">
+              <div class="card" style="width: 18rem;">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ molho.nome }}</h5>
+                    <p class="card-text">Preço: R$ {{ molho.preco }}</p>
+                    <a href="#" class="btn btn-outline-warning">Adicionar ao carrinho</a>
+                    <a href="#" class="btn btn-outline-warning">Ver</a>
+                  </div>
+                </div>
+            </div>
+          {% endfor %}
+        </div>
+        <h3 style="color: rgb(255, 141, 54);">PORÇÕES:</h3>
+        <div class="row" id="porcoes">
+          {% for porcao in porcoes %}
+            <div class="col-sm-3 mb-5 mr-2">
+              <div class="card" style="width: 18rem;">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ porcao.nome }}</h5>
+                    <p class="card-text">Preço: R$ {{ porcao.preco }}</p>
+                    <a href="#" class="btn btn-outline-warning">Adicionar ao carrinho</a>
+                    <a href="#" class="btn btn-outline-warning">Ver</a>
+                  </div>
+                </div>
+            </div>
+          {% endfor %}
+        </div>
+    </div>
+
+{% endblock content %}

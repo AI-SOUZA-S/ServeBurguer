@@ -1,0 +1,60 @@
+{% extends 'hamburgueria/main.html' %}
+{% load static %}
+
+{% block content %}
+
+<br><br><br><br><br>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box-element" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
+            <a href="{% url 'hamburgueria' %}" class="btn btn-outline-dark" style="border-radius: 0; margin-top: 10px; margin-bottom: 10px; margin-right: 10px; margin-left: 10px;">&#x2190; Continuar Escolhendo</a>
+            <hr style="border: none; border-top: 1px dashed #000;">
+
+            <br>
+            <table class="table">
+                <tr>
+                    <th><h5>ITENS: <strong>2</strong></h5></th>
+                    <th><h5>TOTAL: <strong> R$:61,00 </strong></h5></th>
+                    <th>
+                        <a style="float:right; margin:5px;" href="{% url 'checkout' %}" class="btn btn-success">Checkout</a>
+                    </th>
+                </tr>
+            </table>
+        </div>
+
+        <br>
+
+        <div class="box-element" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
+            <div class="cart-row" style="display:flex; align-items:flex-stretch; border-radius: 0; margin-top: 10px; margin-bottom: 10px; margin-right: 10px; margin-left: 10px;">
+                <div style="flex:2"></div>
+                <div style="flex:2"><strong>Item</strong></div>
+                <div style="flex:1"><strong>Preço</strong></div>
+                <div style="flex:1"><strong>Quantidade</strong></div>
+                <div style="flex:1"><strong>Total</strong></div>
+            </div>
+            <hr style="border: none; border-top: 1px dashed #000;">
+            <div class="cart-row" style="display:flex; align-items:flex-stretch; border-radius: 0; margin-top: 10px; margin-bottom: 10px; margin-right: 10px; margin-left: 10px;">
+                <div style="flex:2"><img style="width:100px" src="{% static 'images/placeholder.jpg' %}">
+                </div>
+                <div style="flex:2">Burgão</div>
+                <div style="flex:1">R$30,50</div>
+                <div style="flex:1;">
+                    <p class="quantidade" style="display: inline-block; font-weight: 700; padding-right:10px;">2</p>
+                    <div class="quantidade" style="display: inline-block; font-weight: 700; padding-right:10px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"/>
+                        </svg>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
+                        </svg>
+                    </div>
+                </div>
+                <div style="flex:1"><p>R$61,00</p></div>
+            </div>
+            <hr style="border: none; border-top: 1px dashed #000;">
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
