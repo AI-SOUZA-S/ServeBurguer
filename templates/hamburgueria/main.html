@@ -37,12 +37,20 @@
                 <a href="{% url 'login' %}" class="btn btn-warning" id="espaco-entrar">Entrar</a>
                 <a class="btn btn-warning" href="{% url 'register' %}">Registrar</a>
              
-              {% else %}  
-
-                <a class="btn btn-warning" href="{% url 'logout' %}">SAI</a>  
-                <a href="{% url 'cart' %}">
-                    <img id="cart-icon" src="{% static 'images/carro.png' %}" width="30" height="30">
-                </a>
+              {% else %}
+                <div class="row">
+                  <div class="col">
+                    <form action="{% url 'logout' %}" method="post">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-warning">SAIR</button>
+                    </form>
+                  </div>
+                  <div class="col">
+                    <a href="{% url 'cart' %}">
+                      <img id="cart-icon" src="{% static 'images/carro.png' %}" width="30" height="30">
+                    </a>
+                  </div>
+                </div>  
               {% endif %}
             </div>
           </div>
