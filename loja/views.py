@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
-from .models import Produto
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Produto, Pedido, ItensPedido
 from .forms import FormularioProduto
 from django.http import HttpResponse, HttpResponseRedirect
-
+from .whatsapp_service import send_whatsapp_message
 
 def hamburgueria(request):
     hamburgueres = []
@@ -78,3 +78,19 @@ def atualizarProduto(request, pk):
 def deletarProduto(request, pk):
     Produto.objects.get(pk=pk).delete()
     return redirect('listaProdutos')
+
+
+def mudarStatusDoPedido(request, id_pedido, novoStatus):
+    pedido = get_object_or_404(Pedido, id=id_pedido)
+    pedido.status = novoStatus
+    pedido.save()
+    
+    messagem = f'Olá {pedido.cliente.nome}, seu pedido está agora {novoStatus.replace("_", ' ').lower()}.'
+    send_whatsapp_message(pedido.cliente.telefone, messagem)
+    
+    return redirect('pedidoDetalhe', id_pedido=id_pedido)
+
+def pedidoDetalhe(request, id_pedido):
+    pedido = get_object_or_404(Pedido, id=id_pedido)
+    itens_pedido = get_object_or_404(ItensPedido, pedido=pedido)
+    return render(request, 'pedidoDetalhe.html', {'pedido': pedido, 'itens_pedido': itens_pedido})
