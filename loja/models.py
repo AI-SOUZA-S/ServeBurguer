@@ -22,11 +22,18 @@ class Cliente(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     nome = models.CharField(max_length=100, null=True)
     email = models.CharField(max_length=100)
+    telefone = models.CharField(max_length=50)
     
 class Pedido(models.Model):
     cliente =  models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, blank=True)
     data_Pedido = models.DateTimeField(auto_now_add=True)
     completo = models.BooleanField(max_length=100, null=True)
+    status = [
+        ('PENDING', 'Pending'),
+        ('IN_PROGRESS', 'In Progress'),
+        ('COMPLETED', 'Completed'),
+        ('CANCELLED', 'Cancelled'),    
+        ]
     
 class ItensPedido(models.Model):
     produto = models.ForeignKey(Produto, on_delete=models.SET_NULL, null=True)
