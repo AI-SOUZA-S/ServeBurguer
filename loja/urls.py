@@ -11,5 +11,5 @@ urlpatterns = [
     path('<int:pk>/deletar/', views.deletarProduto, name='deletarProduto'),
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('pedido/<int:id_pedido>/', views.pedidoDetalhe, name='pedidoDetalhe'),
-    pathe('pedido/<int:id_pedido>/update/<str:novoStatus>/', views.mudarStatusDoPedido, name='mudarStatusPedido')
+    path('pedido/<int:id_pedido>/update/<str:novoStatus>/', views.mudarStatusDoPedido, name='mudarStatusPedido')
 ]
