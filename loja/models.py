@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
@@ -40,3 +41,4 @@ class ItensPedido(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.SET_NULL, null=True)
     quantidade = models.IntegerField(default=0, null=True, blank=True)
     dataAdicionado = models.DateTimeField(auto_now_add=True)
+    
