@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
@@ -20,9 +21,6 @@ class Produto(models.Model):
     
 class Cliente(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
-    nome = models.CharField(max_length=100, null=True)
-    email = models.CharField(max_length=100)
-    telefone = models.CharField(max_length=50)
     
 class Pedido(models.Model):
     cliente =  models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, blank=True)
@@ -40,3 +38,4 @@ class ItensPedido(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.SET_NULL, null=True)
     quantidade = models.IntegerField(default=0, null=True, blank=True)
     dataAdicionado = models.DateTimeField(auto_now_add=True)
+    
