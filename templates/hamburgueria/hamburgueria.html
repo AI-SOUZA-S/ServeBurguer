@@ -18,8 +18,13 @@
                         <h5 class="card-title">{{ hamburguer.nome }}</h5>
                         <p class="card-text">Preço: R$ {{ hamburguer.preco }}</p>
                         {% if user.is_authenticated  %}
-                          <a href="#" class="btn btn-outline-warning">Adicionar ao carrinho</a>
+                          <form method="post" action="{% url 'cart' %}" class="form-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="produto_id" value="{{ hamburguer.id }}">
+                            <button type="submit" class="btn btn-outline-warning">Adicionar ao carrinho</button>
+                          </form>
                         {% endif %}
+                        <br>
                         <a href="#" class="btn btn-outline-warning">Ver</a>
                       </div>
                     </div>
@@ -40,8 +45,13 @@
                     <h5 class="card-title">{{ bebida.nome }}</h5>
                     <p class="card-text">Preço: R$ {{ bebida.preco }}</p>
                     {% if user.is_authenticated  %}
-                      <a href="#" class="btn btn-outline-warning">Adicionar ao carrinho</a>
+                    <form method="post" action="{% url 'cart' %}" class="form-inline">
+                      {% csrf_token %}
+                      <input type="hidden" name="produto_id" value="{{ bebida.id }}">
+                      <button type="submit" class="btn btn-outline-warning">Adicionar ao carrinho</button>
+                    </form>
                     {% endif %}
+                    <br>
                     <a href="#" class="btn btn-outline-warning">Ver</a>
                   </div>
                 </div>
@@ -58,8 +68,13 @@
                     <h5 class="card-title">{{ molho.nome }}</h5>
                     <p class="card-text">Preço: R$ {{ molho.preco }}</p>
                     {% if user.is_authenticated  %}
-                      <a href="#" class="btn btn-outline-warning">Adicionar ao carrinho</a>
+                    <form method="post" action="{% url 'cart' %}" class="form-inline">
+                      {% csrf_token %}
+                      <input type="hidden" name="produto_id" value="{{ molho.id }}">
+                      <button type="submit" class="btn btn-outline-warning">Adicionar ao carrinho</button>
+                    </form>
                     {% endif %}
+                    <br>
                     <a href="#" class="btn btn-outline-warning">Ver</a>
                   </div>
                 </div>
@@ -75,8 +90,13 @@
                     <h5 class="card-title">{{ porcao.nome }}</h5>
                     <p class="card-text">Preço: R$ {{ porcao.preco }}</p>
                     {% if user.is_authenticated  %}
-                      <a href="#" class="btn btn-outline-warning">Adicionar ao carrinho</a>
+                    <form method="post" action="{% url 'cart' %}" class="form-inline">
+                      {% csrf_token %}
+                      <input type="hidden" name="produto_id" value="{{ porcao.id }}">
+                      <button type="submit" class="btn btn-outline-warning">Adicionar ao carrinho</button>
+                    </form>
                     {% endif %}
+                    <br>
                     <a href="#" class="btn btn-outline-warning">Ver</a>
                   </div>
                 </div>
@@ -84,5 +104,5 @@
           {% endfor %}
         </div>
     </div>
-    <h1>{{ user.Nome }}</h1>
+    <h1>{{ produto.nome }}</h1>
 {% endblock content %}

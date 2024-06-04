@@ -3,6 +3,8 @@ from .models import Produto, Pedido, ItensPedido
 from .forms import FormularioProduto
 from django.http import HttpResponse, HttpResponseRedirect
 from .whatsapp_service import send_whatsapp_message
+from decimal import Decimal
+from django.http import JsonResponse
 
 def hamburgueria(request):
     hamburgueres = []
@@ -34,13 +36,8 @@ def hamburgueria(request):
     })
             
 
-def cart(request):
-    context = {}
-    return render(request, "hamburgueria/cart.html", context)
 
-def checkout(request):
-    context = {}
-    return render(request, "hamburgueria/checkout.html",context)
+
 
 
 def criarProduto(request):
@@ -94,3 +91,57 @@ def pedidoDetalhe(request, id_pedido):
     pedido = get_object_or_404(Pedido, id=id_pedido)
     itens_pedido = get_object_or_404(ItensPedido, pedido=pedido)
     return render(request, 'pedidoDetalhe.html', {'pedido': pedido, 'itens_pedido': itens_pedido})
+
+def cart(request):
+    if request.method == 'POST':
+        produto_id = request.POST.get('produto_id')
+        
+        carrinho = request.session.get('carrinho', [])
+        carrinho.append(produto_id)
+        request.session['carrinho'] = carrinho
+        
+        return HttpResponseRedirect('/carrinho/')  # Redireciona para a página do carrinho
+    
+    else:
+        carrinho = request.session.get('carrinho', [])
+        produtos_no_carrinho = Produto.objects.filter(pk__in=carrinho)
+        itens = len(produtos_no_carrinho)
+        
+        for produto in produtos_no_carrinho:
+            produto.preco *= Decimal(produto.quantidade)
+        total = sum(produto.preco for produto in produtos_no_carrinho)
+        
+        return render(request, 'hamburgueria/cart.html', {'produtos': produtos_no_carrinho, 'total':total, 'itens':itens})
+    
+    
+def atualizar_quantidade(request):
+    if request.method == 'POST':
+        produto_id = request.POST.get('produto_id')
+        action = request.POST.get('action')
+
+        produto = Produto.objects.get(pk=produto_id)
+
+        if action == 'aumentar':
+            produto.quantidade += 1
+        elif action == 'diminuir' and produto.quantidade > 1:
+            produto.quantidade -= 1
+        
+        produto.save()
+
+        # Redireciona de volta para a página de carrinho
+        return redirect('cart')
+
+    else:
+        # Se a solicitação não for POST, retorna uma resposta JSON com erro
+        return JsonResponse({'error': 'Método de solicitação inválido'})
+
+def checkout(request):
+    carrinho = request.session.get('carrinho', [])
+    produtos_no_carrinho = Produto.objects.filter(pk__in=carrinho)
+    itens = len(produtos_no_carrinho)
+        
+    for produto in produtos_no_carrinho:
+        produto.preco *= Decimal(produto.quantidade)
+    total = sum(produto.preco for produto in produtos_no_carrinho)
+    
+    return render(request, "hamburgueria/checkout.html", {'produtos': produtos_no_carrinho, 'total':total, 'itens':itens})

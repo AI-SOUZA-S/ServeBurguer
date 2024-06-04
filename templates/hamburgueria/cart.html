@@ -13,8 +13,8 @@
             <br>
             <table class="table">
                 <tr>
-                    <th><h5>ITENS: <strong>2</strong></h5></th>
-                    <th><h5>TOTAL: <strong> R$:61,00 </strong></h5></th>
+                    <th><h5>ITENS: <strong>{{ itens }}</strong></h5></th>
+                    <th><h5>TOTAL: <strong> R${{ total }} </strong></h5></th>
                     <th>
                         <a style="float:right; margin:5px;" href="{% url 'checkout' %}" class="btn btn-success">Checkout</a>
                     </th>
@@ -33,28 +33,51 @@
                 <div style="flex:1"><strong>Total</strong></div>
             </div>
             <hr style="border: none; border-top: 1px dashed #000;">
-            <div class="cart-row" style="display:flex; align-items:flex-stretch; border-radius: 0; margin-top: 10px; margin-bottom: 10px; margin-right: 10px; margin-left: 10px;">
-                <div style="flex:2"><img style="width:100px" src="{% static 'images/placeholder.jpg' %}">
-                </div>
-                <div style="flex:2">Burgão</div>
-                <div style="flex:1">R$30,50</div>
-                <div style="flex:1;">
-                    <p class="quantidade" style="display: inline-block; font-weight: 700; padding-right:10px;">2</p>
-                    <div class="quantidade" style="display: inline-block; font-weight: 700; padding-right:10px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"/>
-                        </svg>
-
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
-                        </svg>
+            {% for produto in produtos %}
+                <div class="cart-row" style="display:flex; align-items:flex-stretch; border-radius: 0; margin-top: 10px; margin-bottom: 10px; margin-right: 10px; margin-left: 10px;">
+                    {% if produto.imagem %}
+                        <div style="flex:2"><img style="width:100px" src="{{ produto.imagem.url }}"></div>
+                    {% else %}
+                        <div style="flex:2"><img style="width:100px" src="{% static 'images/placeholder.jpg' %}"></div>
+                    {% endif %}
+                    <div style="flex:2">{{produto.nome}}</div>
+                    <div style="flex:1">R${{produto.preco}}</div>
+                    <div style="flex:1;">
+                        <p class="quantidade" style="display: inline-block; font-weight: 700; padding-right:10px;" id="quantidade">{{produto.quantidade}}</p>
+                        <div class="quantidade" style="display: inline-block; font-weight: 700; padding-right:10px;">
+                            <form method="POST" action="{% url 'atualizar_quantidade' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="produto_id" value="{{ produto.id }}">
+                                <button type="submit" name="action" value="aumentar">+</button>
+                                <button type="submit" name="action" value="diminuir">-</button>
+                            </form>
+                        </div>
                     </div>
+                    <div style="flex:1">{{ produto.preco }}</div>
                 </div>
-                <div style="flex:1"><p>R$61,00</p></div>
-            </div>
-            <hr style="border: none; border-top: 1px dashed #000;">
+                <hr style="border: none; border-top: 1px dashed #000;">
+            {% endfor %}
         </div>
     </div>
 </div>
+<script>
+    function aumentarQuantidade() {
+        var quantidadeElement = document.getElementById('quantidade');
+        var quantidade = parseInt(quantidadeElement.textContent);
+
+        quantidadeElement.textContent = quantidade + 1;
+    }
+
+    function diminuirQuantidade() {
+        var quantidadeElement = document.getElementById('quantidade');
+        var quantidade = parseInt(quantidadeElement.textContent);
+
+        
+        if (quantidade > 1) {
+            
+            quantidadeElement.textContent = quantidade - 1;
+        }
+    }
+</script>
 
 {% endblock content %}

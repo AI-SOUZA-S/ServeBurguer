@@ -4,62 +4,28 @@
 {% block content %}
 
 <br><br><br><br><br>
-<div class="row">
-    <div class="col-lg-6">
-        <div id="form-wrapper" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
-            <div id="form">
-                <div id="user-info">
-                    <div style="width: 250px; display:inline-block; padding:5px;">
-                        <input required class="form-control" type="text" name="nome" placeholder="Nome..">
-                    </div>
-                    <div style="width: 250px; display:inline-block; padding:5px;">                       
-                        <input required class="form-control" type="email" name="email" placeholder="Email..">
-                    </div>
-                </div>
-
-                <div id="shipping-info">
-                    <hr>
-                    <p style="margin-left: 5px;">Informações de Compra</p>
-                    <hr>
-                    <div style="width: 250px; display:inline-block; padding:5px;">
-                        <input type="text" name="endereco" placeholder="Endereço.." class="form-control">
-                    </div>
-                    <div style="width: 250px; display:inline-block; padding:5px;">
-                        <input type="text" name="cidade" placeholder="Cidade.." class="form-control">
-                    </div>
-                    <div style="width: 250px; display:inline-block; padding:5px;">
-                        <input type="text" name="estado" placeholder="Estado.." class="form-control">
-                    </div>
-                    <div style="width: 250px; display:inline-block; padding:5px;">
-                        <input type="text" name="cep" placeholder="CEP.." class="form-control">
-                    </div>
-                    <div style="width: 250px; display:inline-block; padding:5px;">
-                        <input type="text" name="cep" placeholder="CEP.." class="form-control">
-                    </div>
-                </div>
-
-                <hr>
-                <input type="submit" value="Continuar" id="form-button" class="btn btn-success btn-block">
-            </div>
-        </div>
-    </div>
-
+<div class="row justify-content-center">
     <div class="col-lg-6">
         <div style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
             <a href="{% url 'cart' %}" class="btn btn-outline-dark" style="border-radius: 0; margin-top: 10px; margin-bottom: 10px; margin-right: 10px; margin-left: 10px;">&#x2190; Voltar ao Carrinho </a>
             <hr>
             <h3 style="margin-left: 5px;">Resumo do Pedido</h3>
             <hr>
-            <div style="display:flex; align-items:flex-stretch; border-radius: 0; margin-top: 10px; margin-bottom: 10px; margin-right: 10px; margin-left: 10px;">
-                <div style="flex:2"> <img style="width:100px" src="{% static 'images/placeholder.jpg' %}"></div>
-                <div style="flex:2"><p>Burgão</p></div>
-                <div style="flex:1"><p>R$:61,00</p></div>
-                <div style="flex:1"><p>x2</p></div>
-            </div>  
-            
-            <hr>
-            <h5 style="margin-left: 5px;">Itens: 2</h5>
-            <h5 style="margin-left: 5px;">Total: R$61,00</h5>
+            {% for produto in produtos %}
+                <div style="display:flex; align-items:flex-stretch; border-radius: 0; margin-top: 10px; margin-bottom: 10px; margin-right: 10px; margin-left: 10px;">
+                    {% if produto.imagem %}
+                        <div style="flex:2"> <img style="width:100px" src="{{ produto.imagem.url }}"></div>
+                    {% else %}
+                        <div style="flex:2"> <img style="width:100px" src="{% static 'images/placeholder.jpg' %}"></div>
+                    {% endif %}
+                    <div style="flex:2"><p>{{ produto.nome }}</p></div>
+                    <div style="flex:1"><p>R${{ produto.preco }}</p></div>
+                    <div style="flex:1"><p>{{ produto.quantidade }}X</div>
+                </div>  
+                <hr>
+            {% endfor %}
+                <h5 style="margin-left: 5px;">Itens: {{itens}}</h5>
+                <h5 style="margin-left: 5px;">Total: {{ total }}</h5>
         </div>
     </div>
 </div>
