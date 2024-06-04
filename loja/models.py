@@ -21,6 +21,9 @@ class Produto(models.Model):
     
 class Cliente(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
+    nome = models.CharField(max_length=100, null=True)
+    email = models.CharField(max_length=100)
+    telefone = models.CharField(max_length=50, null=True)
     
 class Pedido(models.Model):
     cliente =  models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, blank=True)

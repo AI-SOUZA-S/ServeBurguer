@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block content %}
-<small>Nome do pedido: {{ pedido }}</small>
+<small>Nome do cliente: {{ pedido.cliente.nome }}</small>
 {% comment %} Cria as paradas aqui #TODO {% endcomment %} 
-
 {% endblock content %}
